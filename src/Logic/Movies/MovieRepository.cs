@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using CSharpFunctionalExtensions;
 using Logic.Utils;
 using NHibernate;
@@ -19,19 +20,12 @@ namespace Logic.Movies
         }
 
         public IReadOnlyList<Movie> GetList(
-            bool forKidsOnly,
-            double minRating,
-            bool availableCd )
+            Expression<Func<Movie,bool>> expression)
         {
             using (ISession session = SessionFactory.OpenSession())
             {
                 return session.Query<Movie>()
-                    .Where(m => 
-                        (m.MpaaRating <= MpaaRating.PG || !forKidsOnly) &&
-                        m.Rating >= minRating &&
-                        (m.ReleaseDate<= DateTime.Now.AddMonths(-6) || !availableCd)
-                        ) 
-                    
+                    .Where(expression) 
                     .ToList();
             }
         }

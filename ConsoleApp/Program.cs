@@ -24,11 +24,19 @@ namespace Console2
 			BuyCDCommand = new Command<long>(BuyCD);
 			var movieList = new MovieListViewModel();
 
-			PrintMovieList("kids ", new MovieRepository().GetList(true, 7, false));
-			PrintMovieList("all ", new MovieRepository().GetList(false, 7, false));
+			// PrintMovieList("kids ", new MovieRepository().GetList(true, 7, false));
+			PrintMovieList("all ", GetMovieList());
 
+			BuyCD(1);
+			BuyChildTicket(1);
+			BuyChildTicket(4);
+		}
 
-			Console.WriteLine("Hello, World!");
+		private static IReadOnlyList<Movie> GetMovieList()
+		{
+			var exp = false ? Movie.IsForChildren : x => true;
+			exp = true ? Movie.HasCd : x => true;
+			return new MovieRepository().GetList(exp);
 		}
 
 		private static void BuyCD(long id)
@@ -37,12 +45,13 @@ namespace Console2
 			if (m.HasNoValue) return;
 			
 			var movie = m.Value;
-			if (movie.MpaaRating > MpaaRating.PG)
+			var hasCd = Movie.HasCd.Compile();
+			if (!hasCd(movie))
 			{
-				Console.WriteLine("Child ticket not available");
+				Console.WriteLine("No cd available");
 				return;
 			}
-			Console.WriteLine("Child ticket bought");
+			Console.WriteLine("CD bought");
 		}
 
 		private static void BuyAdultTicket(long obj)
@@ -56,7 +65,8 @@ namespace Console2
 			if (m.HasNoValue) return;
 			
 			var movie = m.Value;
-			if (movie.MpaaRating > MpaaRating.PG)
+			var isForChildren = Movie.IsForChildren.Compile();
+			if (!isForChildren(movie))
 			{
 				Console.WriteLine("Child ticket not available");
 				return;
