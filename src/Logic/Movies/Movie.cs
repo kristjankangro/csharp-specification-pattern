@@ -14,6 +14,11 @@ namespace Logic.Movies
         protected Movie()
         {
         }
+
+        public virtual string ToString()
+        {
+            return $"{Name} {Genre} {ReleaseDate} {Rating}";
+        }
     }
 
 

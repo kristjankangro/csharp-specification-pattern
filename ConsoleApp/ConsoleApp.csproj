@@ -34,6 +34,9 @@
         <WarningLevel>4</WarningLevel>
     </PropertyGroup>
     <ItemGroup>
+        <Reference Include="CSharpFunctionalExtensions, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+          <HintPath>..\packages\CSharpFunctionalExtensions.1.7.1\lib\netstandard1.0\CSharpFunctionalExtensions.dll</HintPath>
+        </Reference>
         <Reference Include="System"/>
         <Reference Include="System.Core"/>
         <Reference Include="System.Data"/>
@@ -52,6 +55,10 @@
         <Project>{f382c2e0-ef66-47da-b3fc-81611b0097a2}</Project>
         <Name>UI</Name>
       </ProjectReference>
+    </ItemGroup>
+    <ItemGroup>
+      <None Include="App.config" />
+      <None Include="packages.config" />
     </ItemGroup>
     <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets"/>
     <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
