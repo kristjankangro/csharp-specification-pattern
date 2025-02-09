@@ -6,7 +6,6 @@
         <DockPanel>
             <StackPanel DockPanel.Dock="Top" HorizontalAlignment="Left" Orientation="Horizontal">
                 <Button Command="{Binding SearchCommand}" Content="Search" Margin="10" Padding="5" FontSize="18" />
-                <Button Command="{Binding BuyTicketCommand}" CommandParameter="{Binding ElementName=grdMovies, Path=SelectedValue.Id}" Content="Buy Ticket" Margin="10" Padding="5" FontSize="18" />
             </StackPanel>
 
             <DataGrid x:Name="grdMovies" ItemsSource="{Binding Path=Movies}" IsReadOnly="True" AutoGenerateColumns="False" SelectionMode="Single" FontSize="15">

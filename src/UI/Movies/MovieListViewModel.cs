@@ -29,7 +29,7 @@ namespace UI.Movies
 
         private void Search()
         {
-            Movies = _repository.GetList();
+            Movies = _repository.GetList(true, 10, false);
             Notify(nameof(Movies));
         }
     }
