@@ -6,6 +6,7 @@ using CSharpFunctionalExtensions;
 using Logic.Utils;
 using NHibernate;
 using NHibernate.Linq;
+using UI.Movies;
 
 namespace Logic.Movies
 {
@@ -19,13 +20,12 @@ namespace Logic.Movies
             }
         }
 
-        public IReadOnlyList<Movie> GetList(
-            Expression<Func<Movie,bool>> expression)
+        public IReadOnlyList<Movie> GetList(GenericSpecs<Movie> spec)
         {
             using (ISession session = SessionFactory.OpenSession())
             {
                 return session.Query<Movie>()
-                    .Where(expression) 
+                    .Where(spec.Expression) 
                     .ToList();
             }
         }

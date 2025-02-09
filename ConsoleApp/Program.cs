@@ -34,9 +34,16 @@ namespace Console2
 
 		private static IReadOnlyList<Movie> GetMovieList()
 		{
+			var spec = new GenericSpecs<Movie>(Movie.HasCd);
+			var spec2 = new GenericSpecs<Movie>(Movie.IsForChildren);
 			var exp = false ? Movie.IsForChildren : x => true;
 			exp = true ? Movie.HasCd : x => true;
-			return new MovieRepository().GetList(exp);
+			return new MovieRepository().GetList(spec);
+		}
+
+		private static void BuyAdultTicket(long obj)
+		{
+			Console.WriteLine("Adult ticket bought");
 		}
 
 		private static void BuyCD(long id)
@@ -45,18 +52,14 @@ namespace Console2
 			if (m.HasNoValue) return;
 			
 			var movie = m.Value;
-			var hasCd = Movie.HasCd.Compile();
-			if (!hasCd(movie))
+			
+			var spec = new GenericSpecs<Movie>(Movie.HasCd);
+			if (!spec.IsSatisfiedBy(movie))
 			{
 				Console.WriteLine("No cd available");
 				return;
 			}
 			Console.WriteLine("CD bought");
-		}
-
-		private static void BuyAdultTicket(long obj)
-		{
-			Console.WriteLine("Adult ticket bought");
 		}
 
 		private static void BuyChildTicket(long id)
@@ -65,8 +68,8 @@ namespace Console2
 			if (m.HasNoValue) return;
 			
 			var movie = m.Value;
-			var isForChildren = Movie.IsForChildren.Compile();
-			if (!isForChildren(movie))
+			var spec = new GenericSpecs<Movie>(Movie.IsForChildren);
+			if (!spec.IsSatisfiedBy(movie))
 			{
 				Console.WriteLine("Child ticket not available");
 				return;
