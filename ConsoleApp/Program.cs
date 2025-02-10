@@ -42,7 +42,7 @@ namespace Console2
 
 			spec.And(new MovieForChildrenSpec())
 				.And(new HasCdSpec());
-			return new MovieRepository().GetList(spec);
+			return new MovieRepository().GetList(spec, 7);
 		}
 
 		private static void BuyAdultTicket(long obj)

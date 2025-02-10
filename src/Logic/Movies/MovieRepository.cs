@@ -21,12 +21,20 @@ namespace Logic.Movies
         }
 
         // public IReadOnlyList<Movie> GetList(GenericSpecs<Movie> spec)
-        public IReadOnlyList<Movie> GetList(Specification<Movie> spec)
+        public IReadOnlyList<Movie> GetList(
+            Specification<Movie> spec,
+            double minRating,
+            int page = 0,
+            int pageSize = 2
+            )
         {
             using (ISession session = SessionFactory.OpenSession())
             {
                 return session.Query<Movie>()
-                    .Where(spec.ToExpression()) 
+                    .Where(spec.ToExpression())
+                    .Where(x => x.Rating >= minRating)
+                    .Skip(page*pageSize)
+                    .Take(pageSize)
                     .ToList();
             }
         } 
