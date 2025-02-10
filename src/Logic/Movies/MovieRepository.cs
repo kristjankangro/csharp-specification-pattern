@@ -28,6 +28,13 @@ namespace Logic.Movies
                     .Where(spec.Expression) 
                     .ToList();
             }
+        } 
+        
+        //anti pattern, never return IQueryable, IEnumerable
+        public IQueryable<Movie> Find()
+        {
+            ISession session = SessionFactory.OpenSession();
+                return session.Query<Movie>();
         }
     }
 }

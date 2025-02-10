@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Runtime.CompilerServices;
 using Logic.Movies;
 using Logic.Utils;
 using UI.Common;
@@ -35,9 +34,6 @@ namespace Console2
 		private static IReadOnlyList<Movie> GetMovieList()
 		{
 			var spec = new GenericSpecs<Movie>(Movie.HasCd);
-			var spec2 = new GenericSpecs<Movie>(Movie.IsForChildren);
-			var exp = false ? Movie.IsForChildren : x => true;
-			exp = true ? Movie.HasCd : x => true;
 			return new MovieRepository().GetList(spec);
 		}
 
@@ -50,15 +46,16 @@ namespace Console2
 		{
 			var m = new MovieRepository().GetOne(id);
 			if (m.HasNoValue) return;
-			
+
 			var movie = m.Value;
-			
+
 			var spec = new GenericSpecs<Movie>(Movie.HasCd);
 			if (!spec.IsSatisfiedBy(movie))
 			{
 				Console.WriteLine("No cd available");
 				return;
 			}
+
 			Console.WriteLine("CD bought");
 		}
 
@@ -66,7 +63,7 @@ namespace Console2
 		{
 			var m = new MovieRepository().GetOne(id);
 			if (m.HasNoValue) return;
-			
+
 			var movie = m.Value;
 			var spec = new GenericSpecs<Movie>(Movie.IsForChildren);
 			if (!spec.IsSatisfiedBy(movie))
@@ -74,6 +71,7 @@ namespace Console2
 				Console.WriteLine("Child ticket not available");
 				return;
 			}
+
 			Console.WriteLine("Child ticket bought");
 		}
 
