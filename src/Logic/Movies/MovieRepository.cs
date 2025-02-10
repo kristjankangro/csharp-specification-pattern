@@ -35,6 +35,7 @@ namespace Logic.Movies
                     .Where(x => x.Rating >= minRating)
                     .Skip(page*pageSize)
                     .Take(pageSize)
+                    .Fetch(x => x.Director)
                     .ToList();
             }
         } 

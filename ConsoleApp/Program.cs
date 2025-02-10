@@ -91,7 +91,7 @@ namespace Console2
 			Console.WriteLine(">>> " + name + " movies:");
 			foreach (var movie in movies)
 			{
-				Console.WriteLine(movie.ToString());
+				Console.WriteLine(movie.ToString(), movie.Director.Name);
 			}
 		}
 	}
