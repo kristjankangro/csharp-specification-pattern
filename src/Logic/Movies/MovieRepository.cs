@@ -3,10 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 using CSharpFunctionalExtensions;
+using Logic.Common;
 using Logic.Utils;
 using NHibernate;
 using NHibernate.Linq;
-using UI.Movies;
 
 namespace Logic.Movies
 {
@@ -20,12 +20,13 @@ namespace Logic.Movies
             }
         }
 
-        public IReadOnlyList<Movie> GetList(GenericSpecs<Movie> spec)
+        // public IReadOnlyList<Movie> GetList(GenericSpecs<Movie> spec)
+        public IReadOnlyList<Movie> GetList(Specification<Movie> spec)
         {
             using (ISession session = SessionFactory.OpenSession())
             {
                 return session.Query<Movie>()
-                    .Where(spec.Expression) 
+                    .Where(spec.ToExpression()) 
                     .ToList();
             }
         } 

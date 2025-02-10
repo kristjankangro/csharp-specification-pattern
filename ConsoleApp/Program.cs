@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using Logic.Common;
 using Logic.Movies;
 using Logic.Utils;
 using UI.Common;
@@ -33,7 +34,14 @@ namespace Console2
 
 		private static IReadOnlyList<Movie> GetMovieList()
 		{
-			var spec = new GenericSpecs<Movie>(Movie.HasCd);
+			// var forKids = new MovieForChildrenSpec();
+			// var hasCd = new HasCdSpec();
+			// return new MovieRepository().GetList(hasCd.And(forKids.Not()));
+
+			Specification<Movie> spec = Specification<Movie>.All;
+
+			spec.And(new MovieForChildrenSpec())
+				.And(new HasCdSpec());
 			return new MovieRepository().GetList(spec);
 		}
 
@@ -49,8 +57,10 @@ namespace Console2
 
 			var movie = m.Value;
 
-			var spec = new GenericSpecs<Movie>(Movie.HasCd);
-			if (!spec.IsSatisfiedBy(movie))
+			// var spec = new GenericSpecs<Movie>(Movie.HasCd);
+			var hasCdSpec = new HasCdSpec();
+			// if (!spec.IsSatisfiedBy(movie))
+			if (!hasCdSpec.IsSatisfiedBy(movie))
 			{
 				Console.WriteLine("No cd available");
 				return;
@@ -65,8 +75,9 @@ namespace Console2
 			if (m.HasNoValue) return;
 
 			var movie = m.Value;
-			var spec = new GenericSpecs<Movie>(Movie.IsForChildren);
-			if (!spec.IsSatisfiedBy(movie))
+			// var spec = new GenericSpecs<Movie>(Movie.IsForChildren);
+			var movieForChildrenSpec = new MovieForChildrenSpec();
+			if (!movieForChildrenSpec.IsSatisfiedBy(movie))
 			{
 				Console.WriteLine("Child ticket not available");
 				return;
