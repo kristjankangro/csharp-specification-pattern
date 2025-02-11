@@ -21,11 +21,11 @@ namespace Logic.Movies
         }
 
         // public IReadOnlyList<Movie> GetList(GenericSpecs<Movie> spec)
-        public IReadOnlyList<Movie> GetList(
+        public IReadOnlyList<MovieDto> GetList(
             Specification<Movie> spec,
             double minRating,
             int page = 0,
-            int pageSize = 2
+            int pageSize = 10
             )
         {
             using (ISession session = SessionFactory.OpenSession())
@@ -36,6 +36,17 @@ namespace Logic.Movies
                     .Skip(page*pageSize)
                     .Take(pageSize)
                     .Fetch(x => x.Director)
+                    .ToList()
+                    .Select(x=> new MovieDto
+                    {
+                        Id = x.Id,
+                        Name = x.Name,
+                        ReleaseDate = x.ReleaseDate,
+                        MpaaRating = x.MpaaRating,
+                        Genre = x.Genre,
+                        Rating = x.Rating,
+                        Director = x.Director.Name,
+                    })
                     .ToList();
             }
         } 

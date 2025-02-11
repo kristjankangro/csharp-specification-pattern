@@ -54,8 +54,10 @@
   <ItemGroup>
     <Compile Include="Common\Specification.cs" />
     <Compile Include="Movies\Director.cs" />
+    <Compile Include="Movies\MovieDto.cs" />
     <Compile Include="Movies\MovieRepository.cs" />
     <Compile Include="Movies\Specs\HasCdSpec.cs" />
+    <Compile Include="Movies\Specs\MovieDirectedBySpec.cs" />
     <Compile Include="Movies\Specs\MovieForChildrenSpec.cs" />
     <Compile Include="Utils\Entity.cs" />
     <Compile Include="Movies\Movie.cs" />

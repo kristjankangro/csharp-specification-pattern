@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using Logic.Common;
 using Logic.Movies;
+using Logic.Movies.Specs;
 using Logic.Utils;
 using UI.Common;
 using UI.Movies;
@@ -32,17 +33,18 @@ namespace Console2
 			BuyChildTicket(4);
 		}
 
-		private static IReadOnlyList<Movie> GetMovieList()
+		private static IReadOnlyList<MovieDto> GetMovieList()
 		{
 			// var forKids = new MovieForChildrenSpec();
 			// var hasCd = new HasCdSpec();
 			// return new MovieRepository().GetList(hasCd.And(forKids.Not()));
 
 			Specification<Movie> spec = Specification<Movie>.All;
-
-			spec.And(new MovieForChildrenSpec())
-				.And(new HasCdSpec());
-			return new MovieRepository().GetList(spec, 7);
+			// spec.And(new MovieForChildrenSpec())
+				// .And(new HasCdSpec());
+			return new MovieRepository().GetList(
+				new MovieDirectedBySpec("Bill Condon"),
+				7);
 		}
 
 		private static void BuyAdultTicket(long obj)
@@ -86,12 +88,12 @@ namespace Console2
 			Console.WriteLine("Child ticket bought");
 		}
 
-		private static void PrintMovieList(string name, IReadOnlyList<Movie> movies)
+		private static void PrintMovieList(string name, IReadOnlyList<MovieDto> movies)
 		{
 			Console.WriteLine(">>> " + name + " movies:");
 			foreach (var movie in movies)
 			{
-				Console.WriteLine(movie.ToString(), movie.Director.Name);
+				Console.WriteLine(movie.ToString());
 			}
 		}
 	}

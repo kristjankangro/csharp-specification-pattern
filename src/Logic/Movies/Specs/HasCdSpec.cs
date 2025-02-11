@@ -1,8 +1,8 @@
 using System;
 using System.Linq.Expressions;
-using Logic.Movies;
+using Logic.Common;
 
-namespace Logic.Common
+namespace Logic.Movies.Specs
 {
 	public sealed class HasCdSpec : Specification<Movie>{
 		private readonly int MonthBeforeCD;
